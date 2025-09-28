@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order from Supermarket</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+    input, textarea, button { width: 100%; margin: 10px 0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h2>🛒 Place Your Order</h2>
+  <input type="text" id="apartment" placeholder="Apartment number (e.g. 501)">
+  <textarea id="order" placeholder="What do you want? (e.g. chocolate, milk)"></textarea>
+  <button onclick="sendOrder()">Send Order</button>
+
+  <script>
+    function sendOrder() {
+      const apartment = document.getElementById('apartment').value.trim();
+      const order = document.getElementById('order').value.trim();
+      if (!apartment || !order) return alert("Fill in both fields!");
+
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.push({ apartment, order });
+      localStorage.setItem('orders', JSON.stringify(orders));
+
+      alert("Order sent!");
+      document.getElementById('apartment').value = '';
+      document.getElementById('order').value = '';
+    }
+  </script>
+</body>
+</html>

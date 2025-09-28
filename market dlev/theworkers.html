@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Supermarket Dashboard</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #fff; }
+    .order { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+    button { margin-top: 5px; }
+  </style>
+</head>
+<body>
+  <h2>📋 Incoming Orders</h2>
+  <div id="orders"></div>
+
+  <script>
+    function loadOrders() {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      const container = document.getElementById('orders');
+      container.innerHTML = '';
+
+      orders.forEach((order, index) => {
+        const div = document.createElement('div');
+        div.className = 'order';
+        div.innerHTML = `
+          <strong>Apartment:</strong> ${order.apartment}<br>
+          <strong>Order:</strong> ${order.order}<br>
+          <button onclick="markDelivered(${index})">Mark as Delivered</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function markDelivered(index) {
+      const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+      orders.splice(index, 1);
+      localStorage.setItem('orders', JSON.stringify(orders));
+      loadOrders();
+    }
+
+    loadOrders();
+    setInterval(loadOrders, 3000); // Refresh every 3 seconds
+  </script>
+</body>
+</html>
